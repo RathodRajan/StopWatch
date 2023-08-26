@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css">
+    <title>STOPWATCH</title>
+
+  </head>
+  <style>
+    /* ::-webkit-scrollbar {
+      width: 20px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+
+      background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTeAikVsNPK6h23kCXAx_ezuXes9OtZF77I-9IS181rXy9BOQB4UjE1qwkE14T1ebM98M&usqp=CAU");
+      background-repeat: no-repeat, no-repeat;
+      background-size: cover;
+    } */
+
+    ::-webkit-scrollbar {
+            width: 16px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            border-radius: 8px;
+            background-color: rgba(118, 215, 234, 0);
+            border: 1px solid #cacaca;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            border-radius: 8px;
+            border: 3px solid transparent;
+            background-clip: content-box;
+            background-color: rgb(67, 207, 209);
+        }
+
+
+    body {
+      color: white;
+      background-color: black;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    input , button {
+      color: rgb(0, 5, 5);
+      font-size: large;
+      font: bold;
+
+      background-color: greenyellow;
+      padding: 5px;
+      padding-left: 12px;
+      padding-right: 12px;
+      margin-top: 20px;
+      border: 1px solid rgb(103, 103, 103);
+      box-shadow: 0px 0px 40px rgb(24, 134, 194);
+      border-radius: 4px;
+    }
+    p {
+      background-color: rgba(255, 38, 0, 0.888);
+      box-shadow: 1px 1px 20px rgba(183, 243, 99, 0.604);
+      border-radius: 3px;
+      font-size: large;
+      padding: 2px;
+    }
+    span {
+      font-size: 40px;
+    }
+    .container {
+      width: auto;
+      height: auto;
+      max-height: 60%;
+      overflow: auto;
+
+      padding: 30px;
+      text-align: center;
+
+      border-radius: 5px;
+      box-shadow: 1px 5px 20px rgb(103, 103, 103);
+      border: 3px solid rgb(78, 76, 76);
+
+      position: absolute;
+      top: 15%;
+    }
+    .trail {
+      height: 10px;
+      width: 20px;
+      margin: 5px;
+      /* background-color: black; */
+    }
+    .flag {
+      text-align: center;
+      font-size: 30px;
+      margin: 3px;
+    }
+    .time {
+      font-size: large;
+      margin: 20px;
+    }
+
+    .flagcollection {
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="buttons">
+        <input type="button" value="Start" onclick="start()" />
+        <!-- <button onclick="start()"><i class="fa-solid fa-play"></i> Start</button> -->
+        <input type="button" value="Stop" onclick="stop()" />
+        <input type="button" value="Reset" onclick="reset()" />
+        <input type="button" value="Flag" onclick="flag()" />
+      </div>
+
+      <div class="time">
+        <span id="hr">00</span> <span>::</span> <span id="min">00</span>
+        <span>::</span> <span id="sec">00</span> <span>::</span>
+        <span id="count">00</span>
+      </div>
+
+      <p>Flags</p>
+
+      <div class="flagcollection"></div>
+    </div>
+  </body>
+  <script>
+    var hr = 0;
+    var min = 0;
+    var sec = 0;
+    var count = 0;
+    var timer = false;
+    var elem;
+
+    function start() {
+      timer = true;
+      stopwarch();
+    }
+
+    function stop() {
+      timer = false;
+    }
+
+    function reset() {
+      timer = false;
+      hr = 0;
+      min = 0;
+      sec = 0;
+      count = 0;
+      flacounter = 0;
+
+      document.querySelector("#hr").innerHTML = "00";
+      document.querySelector("#min").innerHTML = "00";
+      document.querySelector("#sec").innerHTML = "00";
+      document.querySelector("#count").innerHTML = "00";
+
+      // remove all element
+      var e = document.querySelector(".flagcollection");
+      var child = e.lastElementChild;
+      while (child) {
+        e.removeChild(child);
+        child = e.lastElementChild;
+      }
+    }
+
+    var flagcollection = document.querySelector(".flagcollection");
+    var flacounter = 0;
+    function flag() {
+      var houre = document.querySelector("#hr");
+      var minit = document.querySelector("#min");
+      var secound = document.querySelector("#sec");
+      var minisecound = document.querySelector("#count");
+      flacounter = flacounter + 1;
+
+      minisecound = minisecound.textContent;
+      secound = secound.innerHTML;
+      minit = minit.textContent;
+      houre = houre.textContent;
+
+      elem = document.createElement("div");
+
+      elem.innerHTML = `${flacounter}:- ${houre}::${minit}::${secound}::${minisecound}`;
+      elem.setAttribute("class", "flag");
+      //  creat karel key body ma add karva
+      flagcollection.insertAdjacentElement("beforeend", elem);
+    }
+
+    function stopwarch() {
+      if (timer == true) {
+        count = count + 1; // min secound
+
+        if (count == 100) {
+          sec = sec + 1;
+          count = 0;
+        }
+
+        if (sec == 60) {
+          min = min + 1;
+          sec = 0;
+        }
+
+        if (min == 60) {
+          hr = hr + 1;
+          min = 0;
+          sec = 0;
+        }
+        if (hr == 24) {
+          hr = 0;
+          min = 0;
+          sec = 0;
+          count = 0;
+        }
+
+        // convart String value
+        var hrString = hr;
+        var minString = min;
+        var countString = count;
+        var secString = sec;
+
+        if (hr < 10) {
+          hrString = "0" + hrString;
+        }
+
+        if (min < 10) {
+          minString = "0" + minString;
+        }
+
+        if (sec < 10) {
+          secString = "0" + secString;
+        }
+
+        if (count < 10) {
+          countString = "0" + countString;
+        }
+
+        // .innerHTML = minString;
+        document.querySelector("#hr").innerHTML = hrString;
+        document.querySelector("#min").innerHTML = minString;
+        document.querySelector("#sec").innerHTML = secString;
+        document.querySelector("#count").innerHTML = countString;
+        // console.log(minString + " " + secString + " " + countString);
+
+        setTimeout("stopwarch()", 10);
+      }
+    }
+  </script>
+</html>
